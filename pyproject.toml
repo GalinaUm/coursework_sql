@@ -1,0 +1,29 @@
+[project]
+name = "coursework-sql"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "marseilleumirzak",email = "galinaumerzakhova@yandex.ru"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "requests (>=2.32.5,<3.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+lint = [
+    "isort (>=7.0.0,<8.0.0)",
+    "flake8 (>=7.3.0,<8.0.0)",
+    "black (>=25.11.0,<26.0.0)",
+    "mypy (>=1.19.0,<2.0.0)"
+]
+dev = [
+    "pytest (>=9.0.1,<10.0.0)",
+    "pytest-cov (>=7.0.0,<8.0.0)"
+]
