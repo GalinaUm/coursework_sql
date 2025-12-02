@@ -24,8 +24,8 @@ class Vacancy:
         return Vacancy(
             title=data.get("name", "Без названия"),
             url=data.get("alternate_url", ""),
-            salary_from=data.get("from"),
-            salary_to=data.get("to"),
+            salary_from=salary.get("from"),
+            salary_to=salary.get("to"),
             employer=data.get("employer", {}).get("name", "Неизвестно"),
             description=(data.get("snippet") or {}).get("responsibility", "") or ""
         )
