@@ -3,19 +3,19 @@ from typing import Dict, Optional
 
 class Vacancy:
     def __init__(
-            self,
-            title: str,
-            url: str,
-            salary_from: Optional[int],
-            salary_to: Optional[int],
-            employer: str,
-            description: str = ""
+        self,
+        title: str,
+        url: str,
+        salary_from: Optional[int],
+        salary_to: Optional[int],
+        employer: str,
+        description: str = "",
     ):
-        self.title = title,
-        self.url = url,
-        self.salary_from = salary_from,
-        self.salary_to = salary_to,
-        self.employer = employer,
+        self.title = (title,)
+        self.url = (url,)
+        self.salary_from = (salary_from,)
+        self.salary_to = (salary_to,)
+        self.employer = (employer,)
         self.description = description
 
     @staticmethod
@@ -27,7 +27,7 @@ class Vacancy:
             salary_from=salary.get("from"),
             salary_to=salary.get("to"),
             employer=data.get("employer", {}).get("name", "Неизвестно"),
-            description=(data.get("snippet") or {}).get("responsibility", "") or ""
+            description=(data.get("snippet") or {}).get("responsibility", "") or "",
         )
 
     def __str__(self):
@@ -35,4 +35,3 @@ class Vacancy:
         if self.salary_to:
             salary += f" до {self.salary_to}"
         return f"{self.title} ({self.employer}\nЗарплата: {salary or 'Не указана'}\n{self.url}"
-

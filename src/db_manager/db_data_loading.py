@@ -2,8 +2,10 @@ from typing import List
 
 import psycopg2
 
-from ..api.api import HeadHunter
 from config import get_db_params
+
+from ..api.api import HeadHunter
+
 
 class DataLoader:
 
@@ -23,13 +25,12 @@ class DataLoader:
                     INSERT INTO employers (hh_id, name, url, open_vacancies)
                     VALUES (%s, %s, %s, %s)
                     """,
-                (
+                    (
                         employer["id"],
                         employer["name"],
                         employer.get("alternate_url"),
                         employer.get("open_vacancies", 0),
-                    )
-
+                    ),
                 )
             except Exception as e:
                 print(f"Произошла ошибка {e}.")
@@ -41,7 +42,13 @@ class DataLoader:
 
     def load_vacancies(self, employer_ids: List[str]):
         """Загружает вакансии"""
-        conn = psycopg2.connect(**get_db_params())
+        conn = psycopg2.connect(
+            host=get_db_params()["host"],
+            dbname=get_db_params()["dbname"],
+            user=get_db_params()["user"],
+            password=get_db_params()["password"],
+            port=get_db_params()["port"]
+        )
         cur = conn.cursor()
 
         for hh_id in employer_ids:

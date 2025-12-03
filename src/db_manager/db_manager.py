@@ -28,7 +28,10 @@ class DBManager:
         return [{"company": r[0], "vacancies": r[1]} for r in rows]
 
     def get_all_vacancies(self) -> List[Dict]:
-        """Получает список всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки на вакансию."""
+        """
+        Получает список всех вакансий с указанием названия компании,
+        названия вакансии и зарплаты и ссылки на вакансию.
+        """
         conn = psycopg2.connect(**self.params)
         cur = conn.cursor()
         cur.execute(
@@ -43,7 +46,12 @@ class DBManager:
         cur.close()
         conn.close()
         return [
-            {"company": r[0], "title": r[1], "salary": f"{r[2] or 0} - {r[3] or ''}".strip(" -"), "url": r[4]}
+            {
+                "company": r[0],
+                "title": r[1],
+                "salary": f"{r[2] or 0} - {r[3] or ''}".strip(" -"),
+                "url": r[4],
+            }
             for r in rows
         ]
 
@@ -51,7 +59,9 @@ class DBManager:
         """Получает среднюю зарплату по вакансиям"""
         conn = psycopg2.connect(**self.params)
         cur = conn.cursor()
-        cur.execute("SELECT AVG(salary_from) FROM vacancies WHERE salary_from IS NOT NULL;")
+        cur.execute(
+            "SELECT AVG(salary_from) FROM vacancies WHERE salary_from IS NOT NULL;"
+        )
         avg = cur.fetchone()[0]
         cur.close()
         conn.close()
@@ -73,7 +83,9 @@ class DBManager:
         rows = cur.fetchall()
         cur.close()
         conn.close()
-        return [{"company": r[0], "title": r[1], "salary": r[2], "url": r[3]} for r in rows]
+        return [
+            {"company": r[0], "title": r[1], "salary": r[2], "url": r[3]} for r in rows
+        ]
 
     def get_vacancies_with_keyword(self, keyword: str) -> List[Dict]:
         """Получает список всех вакансий, в названии которых содержатся переданные в метод слова"""
@@ -92,4 +104,6 @@ class DBManager:
         rows = cur.fetchall()
         cur.close()
         conn.close()
-        return [{"company": r[0], "title": r[1], "salary": r[2], "url": r[3]} for r in rows]
+        return [
+            {"company": r[0], "title": r[1], "salary": r[2], "url": r[3]} for r in rows
+        ]

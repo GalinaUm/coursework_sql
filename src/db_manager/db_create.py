@@ -20,11 +20,18 @@ class DatabaseCreator:
         conn.autocommit = True
         cur = conn.cursor()
 
-        cur.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (get_db_params()["dbname"],))
+        cur.execute(
+            "SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s",
+            (get_db_params()["dbname"],),
+        )
         exists = cur.fetchone()
 
         if not exists:
-            cur.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(get_db_params()["dbname"])))
+            cur.execute(
+                sql.SQL("CREATE DATABASE {}").format(
+                    sql.Identifier(get_db_params()["dbname"])
+                )
+            )
             print(f"База данных {get_db_params()['dbname']} создана.")
         else:
             print(f"База данных {get_db_params()['dbname']} уже существует.")
@@ -77,4 +84,3 @@ class DatabaseCreator:
         cur.close()
         conn.close()
         print("Таблицы созданы")
-
