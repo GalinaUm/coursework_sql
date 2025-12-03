@@ -214,6 +214,18 @@ files = [
 markers = {dev = "sys_platform == \"win32\"", lint = "platform_system == \"Windows\""}
 
 [[package]]
+name = "config"
+version = "0.5.1"
+description = "A hierarchical, easy-to-use, powerful configuration module for Python"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "config-0.5.1-py2.py3-none-any.whl", hash = "sha256:79ffa009ff2663cc8ca29e56bcec031c044609d4bafaa4f884132a413101ce84"},
+    {file = "config-0.5.1.zip", hash = "sha256:2dd4a03aa383d30711d5a3325a1858de225328d61950a85be5b74c100f63016d"},
+]
+
+[[package]]
 name = "coverage"
 version = "7.12.0"
 description = "Code coverage measurement for Python"
@@ -789,4 +801,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.14"
-content-hash = "df412f5e4adec6784a4e062195b3519557cad574652bae7f27f2f2a61383839a"
+content-hash = "6751f3213a634002fd5c2ea649aae8e19e615d8d9916478681106e5303076e93"

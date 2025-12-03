@@ -1,7 +1,8 @@
 import psycopg2
 from psycopg2 import sql
 
-from .config import get_db_params
+from config import get_db_params
+
 
 class DatabaseCreator:
     """Класс, создающий таблицы"""
@@ -13,11 +14,22 @@ class DatabaseCreator:
             host=get_db_params()["host"],
             dbname=get_db_params()["dbname"],
             user=get_db_params()["user"],
-            password=get_db_params()["password"]
+            password=get_db_params()["password"],
+            port=get_db_params()["port"]
         )
         conn.autocommit = True
         cur = conn.cursor()
-        cur.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(get_db_params()["dbname"])))
+
+        cur.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (get_db_params()["dbname"],))
+        exists = cur.fetchone()
+
+        if not exists:
+            cur.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(get_db_params()["dbname"])))
+            print(f"База данных {get_db_params()['dbname']} создана.")
+        else:
+            print(f"База данных {get_db_params()['dbname']} уже существует.")
+        # cur.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(get_db_params()["dbname"])))
+
         cur.close()
         conn.close()
         print(f"База данных {get_db_params()['dbname']} создана")
@@ -25,7 +37,13 @@ class DatabaseCreator:
     @staticmethod
     def create_table():
         """Создает таблицы employers и vacancies"""
-        conn = psycopg2.connect(**get_db_params())
+        conn = psycopg2.connect(
+            host=get_db_params()["host"],
+            dbname=get_db_params()["dbname"],
+            user=get_db_params()["user"],
+            password=get_db_params()["password"],
+            port=get_db_params()["port"]
+        )
         cur = conn.cursor()
 
         cur.execute(

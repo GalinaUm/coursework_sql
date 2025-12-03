@@ -2,7 +2,7 @@ from typing import Dict, List
 
 import psycopg2
 
-from .config import get_db_params
+from config import get_db_params
 
 
 class DBManager:
