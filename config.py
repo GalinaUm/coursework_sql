@@ -9,6 +9,6 @@ def get_db_params() -> Dict[str, str]:
         "dbname": os.getenv("DB_NAME", "hh_vacancies"),
         "user": os.getenv("DB_USER", "postgres"),
         "port": os.getenv("DB_PORT", "5432"),
-        "password": os.getenv("DB_PASSWORD", "376491825")
+        "password": os.getenv("DB_PASSWORD", "your_pass")
     }
 
