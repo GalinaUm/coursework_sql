@@ -7,12 +7,13 @@ from config import get_db_params
 from ..api.api import HeadHunter
 
 
-class DataLoader:
 
+
+class DataLoader:
     def __init__(self):
         self.api = HeadHunter()
 
-    def load_employers(self, employer_ids: List[str]) -> None:
+    def load_employers(self, employer_ids: List[str]):
         """Загружает работодателей"""
         conn = psycopg2.connect(**get_db_params())
         cur = conn.cursor()
@@ -24,6 +25,10 @@ class DataLoader:
                     """
                     INSERT INTO employers (hh_id, name, url, open_vacancies)
                     VALUES (%s, %s, %s, %s)
+                    ON CONFLICT (hh_id) DO UPDATE SET
+                        name = EXCLUDED.name,
+                        url = EXCLUDED.url,
+                        open_vacancies = EXCLUDED.open_vacancies;
                     """,
                     (
                         employer["id"],
@@ -33,22 +38,16 @@ class DataLoader:
                     ),
                 )
             except Exception as e:
-                print(f"Произошла ошибка {e}.")
+                print(f"Ошибка во время загрузки компании {hh_id}: {e}")
 
-            conn.commit()
-            cur.close()
-            conn.close()
-            print("Компании загружены.")
+        conn.commit()
+        cur.close()
+        conn.close()
+        print("Компании загружены.")
 
     def load_vacancies(self, employer_ids: List[str]):
         """Загружает вакансии"""
-        conn = psycopg2.connect(
-            host=get_db_params()["host"],
-            dbname=get_db_params()["dbname"],
-            user=get_db_params()["user"],
-            password=get_db_params()["password"],
-            port=get_db_params()["port"]
-        )
+        conn = psycopg2.connect(**get_db_params())
         cur = conn.cursor()
 
         for hh_id in employer_ids:

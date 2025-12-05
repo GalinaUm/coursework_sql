@@ -24,7 +24,7 @@ def main():
     except:
         print("БД уже существует или ошибка.")
 
-    DatabaseCreator.create_table()
+    DatabaseCreator.create_tables()
 
     print("Загрузка данных...")
     loader = DataLoader()
